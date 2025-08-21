@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Layout from "../components/Layout";
 
 export default function LostFound() {
@@ -8,3 +9,6 @@ export default function LostFound() {
     </Layout>
   );
 }
+=======
+
+>>>>>>> refs/remotes/origin/main
