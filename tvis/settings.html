@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings - flashDraft</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body { 
+      background-color: #1a1d21; 
+      color: #e6e9ec; 
+      font-family: 'Inter', sans-serif; 
+    }
+    
+    .nav-item {
+      transition: all 0.2s ease;
+    }
+    
+    .nav-item:hover {
+      background-color: #2c2f34;
+    }
+    
+    .nav-item.active {
+      background-color: #6366f1;
+    }
+    
+    .section-card {
+      background: linear-gradient(145deg, #23262b, #1c1f24);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .section-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar-thumb {
+      background: #4b5563;
+      border-radius: 3px;
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+      background: #6366f1;
+    }
+    
+    .avatar-upload {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+    
+    .avatar-upload-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .avatar-upload:hover .avatar-upload-overlay {
+      opacity: 1;
+    }
+    
+    input[type="range"] {
+      -webkit-appearance: none;
+      height: 6px;
+      background: #4b5563;
+      border-radius: 5px;
+      background-image: linear-gradient(#6366f1, #6366f1);
+      background-repeat: no-repeat;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #6366f1;
+      cursor: pointer;
+      box-shadow: 0 0 2px 0 #555;
+      transition: background .3s ease-in-out;
+    }
+    
+    input[type="range"]::-webkit-slider-runnable-track  {
+      -webkit-appearance: none;
+      box-shadow: none;
+      border: none;
+      background: transparent;
+    }
+    
+    .toggle-checkbox:checked {
+      right: 0;
+      border-color: #6366f1;
+    }
+    
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #6366f1;
+    }
+  </style>
+</head>
+<body class="h-screen flex overflow-hidden">
+  <!-- Sidebar + Trigger -->
+  <div class="sidebar-container absolute top-0 left-0 h-full z-50">
+    <!-- Hamburger Button -->
+    <div class="p-3 cursor-pointer bg-[#1a1d21] hover:bg-gray-700">
+      <i class="fas fa-bars text-xl text-white"></i>
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar w-64 bg-[#1a1d21] border-r border-gray-800 h-full flex flex-col">
+      <div class="p-4 border-b border-gray-800">
+        <h1 class="text-xl font-bold text-white">flashDraft</h1>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 scrollbar-custom">
+        <!-- Navigation Items -->
+        <div class="mb-6">
+          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">NAVIGATION</h2>
+          
+          <div class="space-y-1">
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-home mr-2 text-sm"></i>
+              <span>Dashboard</span>
+            </div>
+            
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-calendar-alt mr-2 text-sm"></i>
+              <span>Events & Notice Board</span>
+            </div>
+            
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-search mr-2 text-sm"></i>
+              <span>Lost & Found</span>
+            </div>
+            
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-utensils mr-2 text-sm"></i>
+              <span>Today's Menu</span>
+            </div>
+            
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-users mr-2 text-sm"></i>
+              <span>Class Groups</span>
+            </div>
+            
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-calendar-check mr-2 text-sm"></i>
+              <span>Appointments</span>
+            </div>
+            
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-question-circle mr-2 text-sm"></i>
+              <span>Student Support</span>
+            </div>
+            
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-graduation-cap mr-2 text-sm"></i>
+              <span>Study Hub</span>
+            </div>
+            
+            <div class="nav-item active px-2 py-2 text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-cog mr-2 text-sm"></i>
+              <span>Settings</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Access -->
+        <div class="mb-6">
+          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">SETTINGS</h2>
+          
+          <div class="space-y-2">
+            <div class="section-card p-3 cursor-pointer" onclick="scrollToSection('profile')">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+                  <i class="fas fa-user text-white text-sm"></i>
+                </div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-white">Profile</div>
+                  <div class="text-xs text-gray-400">Update your info</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="section-card p-3 cursor-pointer" onclick="scrollToSection('account')">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
+                  <i class="fas fa-key text-white text-sm"></i>
+                </div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-white">Account</div>
+                  <div class="text-xs text-gray-400">Change password</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="section-card p-3 cursor-pointer" onclick="scrollToSection('notifications')">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center">
+                  <i class="fas fa-bell text-white text-sm"></i>
+                </div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-white">Notifications</div>
+                  <div class="text-xs text-gray-400">Alert preferences</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="section-card p-3 cursor-pointer" onclick="scrollToSection('privacy')">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center">
+                  <i class="fas fa-shield-alt text-white text-sm"></i>
+                </div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-white">Privacy</div>
+                  <div class="text-xs text-gray-400">Data settings</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Info -->
+        <div class="p-4 border-t border-gray-800 flex items-center">
+          <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+            <i class="fas fa-user text-white text-sm"></i>
+          </div>
+          <div class="ml-3">
+            <div class="text-sm font-medium text-white">Alex Johnson</div>
+            <div class="text-xs text-gray-400">Computer Science</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col bg-[#222529] ml-12">
+    <!-- Header -->
+    <div class="h-14 px-6 flex items-center border-b border-gray-800">
+      <i class="fas fa-cog text-gray-500 mr-2"></i>
+      <span class="font-semibold text-white">Settings</span>
+
+      <div class="ml-auto flex items-center space-x-4 text-gray-400">
+        <i class="fas fa-save hover:text-white cursor-pointer" title="Save Changes" onclick="saveAllSettings()"></i>
+        <i class="fas fa-question-circle hover:text-white cursor-pointer" title="Help"></i>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-6 scrollbar-custom">
+      <div class="max-w-4xl mx-auto">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold text-white mb-2">Account Settings</h1>
+          <p class="text-gray-400">Manage your profile, security, and application preferences</p>
+        </div>
+
+        <!-- Profile Section -->
+        <div class="mb-10 section-card p-6" id="profile">
+          <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+            <i class="fas fa-user mr-3 text-blue-500"></i>
+            Profile Information
+          </h2>
+          
+          <div class="flex flex-col md:flex-row gap-8">
+            <!-- Profile Picture -->
+            <div class="md:w-1/3 flex flex-col items-center">
+              <div class="relative mb-4">
+                <div class="w-32 h-32 rounded-full bg-blue-500 flex items-center justify-center text-white text-4xl font-bold">
+                  AJ
+                </div>
+                <label for="avatar-upload" class="avatar-upload">
+                  <div class="avatar-upload-overlay">
+                    <i class="fas fa-camera text-white text-xl"></i>
+                  </div>
+                </label>
+                <input type="file" id="avatar-upload" class="hidden" accept="image/*">
+              </div>
+              <p class="text-sm text-gray-400 text-center">Click on the avatar to upload a custom profile picture</p>
+            </div>
+            
+            <!-- Profile Form -->
+            <div class="md:w-2/3">
+              <form id="profileForm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">First Name</label>
+                    <input type="text" value="Alex" class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                  </div>
+                  
+                  <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Last Name</label>
+                    <input type="text" value="Johnson" class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                  </div>
+                </div>
+                
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Username</label>
+                  <input type="text" value="alexj" class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                </div>
+                
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                  <input type="email" value="alex.johnson@example.edu" class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                </div>
+                
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Bio</label>
+                  <textarea class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500" rows="3" placeholder="Tell us about yourself...">Computer Science student interested in AI and web development. Love to code and create innovative solutions.</textarea>
+                </div>
+                
+                <div class="flex justify-end">
+                  <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Security Section -->
+        <div class="mb-10 section-card p-6" id="account">
+          <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+            <i class="fas fa-key mr-3 text-green-500"></i>
+            Account Security
+          </h2>
+          
+          <form id="securityForm">
+            <div class="mb-6">
+              <h3 class="font-medium text-white mb-4">Change Password</h3>
+              
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Current Password</label>
+                  <input type="password" class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">New Password</label>
+                  <input type="password" class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                  <p class="text-xs text-gray-400 mt-1">Must be at least 8 characters</p>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-300 mb-2">Confirm New Password</label>
+                  <input type="password" class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <h3 class="font-medium text-white mb-4">Two-Factor Authentication</h3>
+              
+              <div class="flex items-center justify-between p-4 bg-[#1a1d21] rounded-lg">
+                <div>
+                  <div class="text-sm font-medium text-white">2FA is currently disabled</div>
+                  <div class="text-xs text-gray-400">Add an extra layer of security to your account</div>
+                </div>
+                <button type="button" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm">
+                  Enable 2FA
+                </button>
+              </div>
+            </div>
+            
+            <div class="flex justify-end">
+              <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
+                Update Security Settings
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="mb-10 section-card p-6" id="notifications">
+          <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+            <i class="fas fa-bell mr-3 text-purple-500"></i>
+            Notification Preferences
+          </h2>
+          
+          <form id="notificationsForm">
+            <div class="space-y-6">
+              <div>
+                <h3 class="font-medium text-white mb-3">Email Notifications</h3>
+                
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-medium text-white">Assignment reminders</div>
+                      <div class="text-xs text-gray-400">Get notified about upcoming assignments</div>
+                    </div>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                      <input type="checkbox" name="assignments" id="assignments" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                      <label for="assignments" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-medium text-white">Class announcements</div>
+                      <div class="text-xs text-gray-400">Notifications from your instructors</div>
+                    </div>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                      <input type="checkbox" name="announcements" id="announcements" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                      <label for="announcements" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-medium text-white">Study group updates</div>
+                      <div class="text-xs text-gray-400">Messages from your study groups</div>
+                    </div>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                      <input type="checkbox" name="studygroup" id="studygroup" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                      <label for="studygroup" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h3 class="font-medium text-white mb-3">Push Notifications</h3>
+                
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-medium text-white">Enable push notifications</div>
+                      <div class="text-xs text-gray-400">Receive alerts on your device</div>
+                    </div>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                      <input type="checkbox" name="push" id="push" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                      <label for="push" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-medium text-white">Sound alerts</div>
+                      <div class="text-xs text-gray-400">Play sound for notifications</div>
+                    </div>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                      <input type="checkbox" name="sound" id="sound" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                      <label for="sound" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex justify-end mt-6">
+              <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
+                Save Notification Settings
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Privacy Settings -->
+        <div class="mb-10 section-card p-6" id="privacy">
+          <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+            <i class="fas fa-shield-alt mr-3 text-yellow-500"></i>
+            Privacy & Data
+          </h2>
+          
+          <form id="privacyForm">
+            <div class="space-y-6">
+              <div>
+                <h3 class="font-medium text-white mb-3">Data Preferences</h3>
+                
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-medium text-white">Data collection for analytics</div>
+                      <div class="text-xs text-gray-400">Help us improve by sharing usage data</div>
+                    </div>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                      <input type="checkbox" name="analytics" id="analytics" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                      <label for="analytics" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-medium text-white">Personalized recommendations</div>
+                      <div class="text-xs text-gray-400">Get study recommendations based on your activity</div>
+                    </div>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none">
+                      <input type="checkbox" name="recommendations" id="recommendations" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" checked/>
+                      <label for="recommendations" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h3 class="font-medium text-white mb-3">Privacy Settings</h3>
+                
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Profile Visibility</label>
+                    <select class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                      <option value="public">Public (Anyone can see your profile)</option>
+                      <option value="students" selected>Students (Only registered students)</option>
+                      <option value="private">Private (Only you)</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Activity Status</label>
+                    <select class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                      <option value="show" selected>Show when I'm active</option>
+                      <option value="hide">Hide my activity status</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="p-4 bg-[#1a1d21] rounded-lg">
+                <h3 class="font-medium text-white mb-3">Data Management</h3>
+                <p class="text-sm text-gray-400 mb-4">You can request a copy of your data or delete your account</p>
+                
+                <div class="flex space-x-4">
+                  <button type="button" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm">
+                    Export My Data
+                  </button>
+                  <button type="button" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm">
+                    Delete Account
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex justify-end mt-6">
+              <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
+                Save Privacy Settings
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Toast Notification -->
+  <div id="successToast" class="fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+    <div class="flex items-center">
+      <i class="fas fa-check-circle mr-2"></i>
+      <span>Settings saved successfully!</span>
+    </div>
+  </div>
+
+  <script>
+    // Function to scroll to specific section
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Function to show success toast
+    function showSuccessToast() {
+      const toast = document.getElementById('successToast');
+      toast.classList.remove('translate-x-full');
+      
+      setTimeout(() => {
+        toast.classList.add('translate-x-full');
+      }, 3000);
+    }
+    
+    // Function to save all settings
+    function saveAllSettings() {
+      // In a real application, this would send data to a server
+      showSuccessToast();
+    }
+    
+    // Avatar upload preview
+    document.getElementById('avatar-upload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          // In a real app, you would update the avatar image here
+          alert('Avatar uploaded successfully!');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add event listeners to all save buttons
+      document.querySelectorAll('button').forEach(button => {
+        if (button.textContent.includes('Save') || button.textContent.includes('Update')) {
+          button.addEventListener('click', showSuccessToast);
+        }
+      });
+      
+      // Toggle switches functionality
+      document.querySelectorAll('.toggle-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          // In a real app, you would update the setting here
+          console.log(this.id + ' is now ' + (this.checked ? 'on' : 'off'));
+        });
+      });
+    });
+  </script>
+</body>
+</html>

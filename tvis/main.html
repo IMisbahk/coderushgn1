@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tidbid.ai</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -72,6 +73,94 @@
     .scrollbar-custom::-webkit-scrollbar-thumb:hover {
       background: #6366f1;
     }
+    
+    /* Flipping Card Styles */
+    .card-container {
+      perspective: 1000px;
+      width: 250px;
+      height: 300px;
+      margin: 0 auto;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+      cursor: pointer;
+      border-radius: 15px;
+    }
+
+    .card:hover {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .front {
+      background: linear-gradient(145deg, #23262b, #1c1f24);
+    }
+
+    .back {
+      background: linear-gradient(145deg, #2c2f34, #23262b);
+      transform: rotateY(180deg);
+      justify-content: space-between;
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-desc {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #a0aec0;
+    }
+
+    .card-btn {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .card-btn:hover {
+      background: #4f46e5;
+    }
+
+    .cards-carousel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
   </style>
 </head>
 <body class="h-screen flex overflow-hidden">
@@ -85,7 +174,7 @@
     <!-- Sidebar -->
     <div class="sidebar w-64 bg-[#1a1d21] border-r border-gray-800 h-full flex flex-col">
       <div class="p-4 border-b border-gray-800">
-        <h1 class="text-xl font-bold text-white">flashDraft</h1>
+        <h1 class="text-xl font-bold text-white">Tidbid.ai</h1>
       </div>
 
       <div class="flex-1 overflow-y-auto p-4 scrollbar-custom">
@@ -215,42 +304,152 @@
           <p class="text-gray-400">Your community platform for communication and collaboration</p>
         </div>
 
-        <!-- Channels Section -->
+        <!-- Flipping Cards Section -->
         <div class="mb-8">
           <h2 class="text-lg font-semibold text-white mb-4 flex items-center">
-            <i class="fas fa-hashtag mr-2 text-blue-400"></i>CHANNELS
+            <i class="fas fa-th-large mr-2 text-purple-400"></i>APP FEATURES
           </h2>
           
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a href="#" class="channel-item px-4 py-3 text-gray-300 hover:text-white cursor-pointer rounded flex items-center section-card">
-              <i class="fas fa-hashtag mr-3 text-gray-500"></i>
-              <span>setup</span>
-            </a>
+          <div class="cards-carousel">
+            <!-- Settings Card -->
+            <div class="card-container">
+              <div class="card">
+                <div class="card-face front">
+                  <div class="card-icon text-blue-500">
+                    <i class="fas fa-cog"></i>
+                  </div>
+                  <div class="card-title text-white">Settings</div>
+                  <div class="card-desc">Customize your experience</div>
+                </div>
+                <div class="card-face back">
+                  <div class="text-center">
+                    <div class="card-title text-white">Settings</div>
+                    <div class="card-desc">Manage your account preferences and app configuration</div>
+                  </div>
+                  <button class="card-btn">Configure</button>
+                </div>
+              </div>
+            </div>
             
-            <a href="#" class="channel-item px-4 py-3 text-gray-300 hover:text-white cursor-pointer rounded flex items-center section-card">
-              <i class="fas fa-hashtag mr-3 text-gray-500"></i>
-              <span>operations</span>
-            </a>
+            <!-- Assignments Card -->
+            <div class="card-container">
+              <div class="card">
+                <div class="card-face front">
+                  <div class="card-icon text-green-500">
+                    <i class="fas fa-tasks"></i>
+                  </div>
+                  <div class="card-title text-white">Assignments</div>
+                  <div class="card-desc">Track your work</div>
+                </div>
+                <div class="card-face back">
+                  <div class="text-center">
+                    <div class="card-title text-white">Assignments</div>
+                    <div class="card-desc">View and manage your current tasks and deadlines</div>
+                  </div>
+                  <button class="card-btn">View Tasks</button>
+                </div>
+              </div>
+            </div>
             
-            <a href="#" class="channel-item px-4 py-3 text-gray-300 hover:text-white cursor-pointer rounded flex items-center section-card">
-              <i class="fas fa-hashtag mr-3 text-gray-500"></i>
-              <span>product-roaching</span>
-            </a>
+            <!-- Events Card -->
+            <div class="card-container">
+              <div class="card">
+                <div class="card-face front">
+                  <div class="card-icon text-yellow-500">
+                    <i class="fas fa-calendar-day"></i>
+                  </div>
+                  <div class="card-title text-white">Events</div>
+                  <div class="card-desc">See what's happening</div>
+                </div>
+                <div class="card-face back">
+                  <div class="text-center">
+                    <div class="card-title text-white">Events</div>
+                    <div class="card-desc">Browse upcoming events and add them to your calendar</div>
+                  </div>
+                  <button class="card-btn">Explore Events</button>
+                </div>
+              </div>
+            </div>
             
-            <a href="#" class="channel-item px-4 py-3 text-gray-300 hover:text-white cursor-pointer rounded flex items-center section-card">
-              <i class="fas fa-hashtag mr-3 text-gray-500"></i>
-              <span>team-coordination</span>
-            </a>
+            <!-- Notices Card -->
+            <div class="card-container">
+              <div class="card">
+                <div class="card-face front">
+                  <div class="card-icon text-red-500">
+                    <i class="fas fa-bullhorn"></i>
+                  </div>
+                  <div class="card-title text-white">Notices</div>
+                  <div class="card-desc">Important announcements</div>
+                </div>
+                <div class="card-face back">
+                  <div class="text-center">
+                    <div class="card-title text-white">Notices</div>
+                    <div class="card-desc">Stay updated with important community announcements</div>
+                  </div>
+                  <button class="card-btn">Read Notices</button>
+                </div>
+              </div>
+            </div>
             
-            <a href="#" class="channel-item px-4 py-3 text-gray-300 hover:text-white cursor-pointer rounded flex items-center section-card">
-              <i class="fas fa-hashtag mr-3 text-gray-500"></i>
-              <span>brainstorming</span>
-            </a>
+            <!-- Menu Card -->
+            <div class="card-container">
+              <div class="card">
+                <div class="card-face front">
+                  <div class="card-icon text-indigo-500">
+                    <i class="fas fa-utensils"></i>
+                  </div>
+                  <div class="card-title text-white">Menu</div>
+                  <div class="card-desc">Today's offerings</div>
+                </div>
+                <div class="card-face back">
+                  <div class="text-center">
+                    <div class="card-title text-white">Menu</div>
+                    <div class="card-desc">Check out today's meal options and dining hall hours</div>
+                  </div>
+                  <button class="card-btn">View Menu</button>
+                </div>
+              </div>
+            </div>
             
-            <a href="#" class="channel-item px-4 py-3 text-gray-300 hover:text-white cursor-pointer rounded flex items-center section-card">
-              <i class="fas fa-hashtag mr-3 text-gray-500"></i>
-              <span>notice</span>
-            </a>
+            <!-- Q&A Card -->
+            <div class="card-container">
+              <div class="card">
+                <div class="card-face front">
+                  <div class="card-icon text-purple-500">
+                    <i class="fas fa-question-circle"></i>
+                  </div>
+                  <div class="card-title text-white">Q&A</div>
+                  <div class="card-desc">Get answers</div>
+                </div>
+                <div class="card-face back">
+                  <div class="text-center">
+                    <div class="card-title text-white">Q&A</div>
+                    <div class="card-desc">Ask questions and get answers from the community</div>
+                  </div>
+                  <button class="card-btn">Ask Question</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Lost & Found Card -->
+            <div class="card-container">
+              <div class="card">
+                <div class="card-face front">
+                  <div class="card-icon text-orange-500">
+                    <i class="fas fa-search"></i>
+                  </div>
+                  <div class="card-title text-white">Lost & Found</div>
+                  <div class="card-desc">Missing something?</div>
+                </div>
+                <div class="card-face back">
+                  <div class="text-center">
+                    <div class="card-title text-white">Lost & Found</div>
+                    <div class="card-desc">Report lost items or check if your item has been found</div>
+                  </div>
+                  <button class="card-btn">Browse Items</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -356,6 +555,15 @@
     closePopup.addEventListener('click', () => {
       popupOverlay.classList.add('hidden');
       document.body.style.overflow = 'auto';
+    });
+
+    // Card click handlers
+    document.querySelectorAll('.card-btn').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const cardTitle = this.closest('.card').querySelector('.card-title').textContent;
+        alert(`Navigating to ${cardTitle} section`);
+      });
     });
   </script>
 </body>
