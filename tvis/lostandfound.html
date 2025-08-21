@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lost & Found - Campus Companion</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body { 
+      background-color: #1a1d21; 
+      color: #e6e9ec; 
+      font-family: 'Inter', sans-serif; 
+    }
+    
+    .channel-item {
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    
+    .channel-item:hover {
+      background-color: #2c2f34;
+      border-left: 3px solid #6366f1;
+    }
+    
+    .section-card {
+      background: linear-gradient(145deg, #23262b, #1c1f24);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .section-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .nav-item {
+      transition: all 0.2s ease;
+    }
+    
+    .nav-item:hover {
+      background-color: #2c2f34;
+    }
+    
+    .nav-item.active {
+      background-color: #6366f1;
+    }
+    
+    /* Sidebar hidden by default */
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    .sidebar-container:hover .sidebar {
+      transform: translateX(0);
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar-thumb {
+      background: #4b5563;
+      border-radius: 3px;
+    }
+    
+    .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+      background: #6366f1;
+    }
+    
+    .modal-enter { opacity: 0; transform: scale(0.95); }
+    .modal-enter-active { opacity: 1; transform: scale(1); transition: all 0.3s ease-out; }
+    .modal-leave { opacity: 1; transform: scale(1); }
+    .modal-leave-active { opacity: 0; transform: scale(0.95); transition: all 0.2s ease-in; }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .status-found {
+      background-color: #10B981;
+      color: white;
+    }
+    
+    .status-claimed {
+      background-color: #3B82F6;
+      color: white;
+    }
+  </style>
+</head>
+<body class="h-screen flex overflow-hidden">
+  <!-- Sidebar + Trigger -->
+  <div class="sidebar-container absolute top-0 left-0 h-full z-50">
+    <!-- Hamburger Button -->
+    <div class="p-3 cursor-pointer bg-[#1a1d21] hover:bg-gray-700">
+      <i class="fas fa-bars text-xl text-white"></i>
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar w-64 bg-[#1a1d21] border-r border-gray-800 h-full flex flex-col">
+      <div class="p-4 border-b border-gray-800">
+        <h1 class="text-xl font-bold text-white">flashDraft</h1>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 scrollbar-custom">
+        <!-- Navigation Items -->
+        <div class="mb-6">
+          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">NAVIGATION</h2>
+          
+          <div class="space-y-1">
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-home mr-2 text-sm"></i>
+              <span>Dashboard</span>
+            </div>
+            
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-calendar-alt mr-2 text-sm"></i>
+              <span>Events & Notice Board</span>
+            </div>
+            
+            <div class="nav-item active px-2 py-2 text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-search mr-2 text-sm"></i>
+              <span>Lost & Found</span>
+            </div>
+            
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-users mr-2 text-sm"></i>
+              <span>Community</span>
+            </div>
+            
+            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-cog mr-2 text-sm"></i>
+              <span>Settings</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Access -->
+        <div class="mb-6">
+          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">QUICK ACCESS</h2>
+          
+          <div class="space-y-2">
+            <div class="section-card p-3 cursor-pointer" onclick="filterItems('found')">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
+                  <i class="fas fa-search text-white text-sm"></i>
+                </div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-white">Found Items</div>
+                  <div class="text-xs text-gray-400">12 items waiting</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="section-card p-3 cursor-pointer" onclick="showReportForm()">
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+                  <i class="fas fa-plus text-white text-sm"></i>
+                </div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-white">Report Item</div>
+                  <div class="text-xs text-gray-400">Lost or found something?</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div>
+          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">RECENT ACTIVITY</h2>
+          
+          <div class="space-y-2">
+            <div class="text-xs text-gray-400 flex items-center">
+              <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+              <span>Water bottle found in Library</span>
+            </div>
+            
+            <div class="text-xs text-gray-400 flex items-center">
+              <div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+              <span>Math textbook claimed by owner</span>
+            </div>
+            
+            <div class="text-xs text-gray-400 flex items-center">
+              <div class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div>
+              <span>New AirPods case reported</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-gray-800 flex items-center">
+        <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+          <i class="fas fa-user text-white text-sm"></i>
+        </div>
+        <div class="ml-3">
+          <div class="text-sm font-medium text-white">Alex Johnson</div>
+          <div class="text-xs text-gray-400">Online</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col bg-[#222529] ml-12">
+    <!-- Header -->
+    <div class="h-14 px-6 flex items-center border-b border-gray-800">
+      <i class="fas fa-search text-gray-500 mr-2"></i>
+      <span class="font-semibold text-white">Lost & Found</span>
+
+      <div class="ml-auto flex items-center space-x-4 text-gray-400">
+        <div class="relative">
+          <input type="text" placeholder="Search items..." class="bg-[#1a1d21] rounded text-sm px-3 py-1.5 w-40 focus:outline-none focus:ring-1 focus:ring-blue-500" id="searchInput">
+        </div>
+        <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded text-sm" onclick="showReportForm()">
+          <i class="fas fa-plus mr-1"></i> Report Item
+        </button>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-6 scrollbar-custom">
+      <div class="max-w-6xl mx-auto">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+          <h1 class="text-2xl font-bold text-white mb-2">Campus Lost & Found</h1>
+          <p class="text-gray-400">Find your lost items or help others reclaim theirs</p>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="flex gap-2 mb-6">
+          <button class="px-4 py-2 rounded-lg bg-[#2c2f34] hover:bg-[#363940] text-sm" onclick="filterItems('all')">
+            All Items
+          </button>
+          <button class="px-4 py-2 rounded-lg bg-[#2c2f34] hover:bg-[#363940] text-sm" onclick="filterItems('found')">
+            Found Items
+          </button>
+          <button class="px-4 py-2 rounded-lg bg-[#2c2f34] hover:bg-[#363940] text-sm" onclick="filterItems('claimed')">
+            Claimed Items
+          </button>
+        </div>
+
+        <!-- Items Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="itemsGrid">
+          <!-- Items will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Item Details Modal -->
+  <div id="itemModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center hidden z-30">
+    <div class="bg-[#2c2f34] rounded-lg p-6 w-11/12 md:w-2/3 lg:w-1/2 relative transform transition-all duration-300 scale-95 opacity-0" id="modalBox">
+      <button onclick="closeItemDetails()" class="absolute top-2 right-3 text-gray-400 hover:text-white text-xl">&times;</button>
+      <div id="itemContent"></div>
+    </div>
+  </div>
+
+  <!-- Report Item Modal -->
+  <div id="reportModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center hidden z-40">
+    <div class="bg-[#2c2f34] rounded-lg p-6 w-11/12 md:w-2/3 lg:w-1/3 relative">
+      <button onclick="closeReportForm()" class="absolute top-2 right-3 text-gray-400 hover:text-white text-xl">&times;</button>
+      <h2 class="text-xl font-bold text-white mb-4">Report Lost or Found Item</h2>
+      
+      <form id="reportForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1">Item Type</label>
+          <select class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+            <option>Electronics</option>
+            <option>Clothing</option>
+            <option>Books</option>
+            <option>Accessories</option>
+            <option>Other</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1">Item Name</label>
+          <input type="text" class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="e.g., Black Water Bottle">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1">Description</label>
+          <textarea class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500" rows="3" placeholder="Describe the item in detail..."></textarea>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1">Location</label>
+          <input type="text" class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Where was it found/lost?">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1">Date</label>
+          <input type="date" class="w-full bg-[#1a1d21] rounded text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500">
+        </div>
+        
+        <div class="flex gap-2 pt-4">
+          <button type="button" onclick="closeReportForm()" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm">
+            Cancel
+          </button>
+          <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
+            Submit Report
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Sample lost and found items data
+    const items = [
+      {
+        id: 1,
+        name: "Black Water Bottle",
+        type: "Accessories",
+        description: "Hydro Flask, 32oz, black matte finish with a few stickers on it.",
+        location: "Library - 2nd floor study area",
+        date: "2023-10-15",
+        status: "found",
+        contact: "security@campus.edu (Ext. 5555)",
+        image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 2,
+        name: "Calculus Textbook",
+        type: "Books",
+        description: "Calculus: Early Transcendentals, 3rd edition. Name written on inside cover: 'Sarah Kim'.",
+        location: "Math Building - Room 204",
+        date: "2023-10-14",
+        status: "claimed",
+        contact: "Prof. Johnson - Math Dept. (johnson@campus.edu)",
+        image: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 3,
+        name: "Wireless Earbuds Case",
+        type: "Electronics",
+        description: "Black AirPods Pro case, no earbuds inside.",
+        location: "Student Center - Near vending machines",
+        date: "2023-10-16",
+        status: "found",
+        contact: "Lost & Found Office - Room 101 (9am-5pm)",
+        image: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 4,
+        name: "Blue Jacket",
+        type: "Clothing",
+        description: "Navy blue Columbia fleece jacket, size Medium, in left pocket: $5 bill and student ID.",
+        location: "Cafeteria - Left on chair near window",
+        date: "2023-10-13",
+        status: "found",
+        contact: "Cafeteria Manager (cafe@campus.edu)",
+        image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 5,
+        name: "Graphing Calculator",
+        type: "Electronics",
+        description: "TI-84 Plus graphing calculator, has a small scratch on the screen.",
+        location: "Engineering Building - Lab B",
+        date: "2023-10-12",
+        status: "claimed",
+        contact: "Engineering Dept. Office (eng@campus.edu)",
+        image: "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 6,
+        name: "Silver Watch",
+        type: "Accessories",
+        description: "Timex Weekender watch with navy blue nylon strap.",
+        location: "Gym - Locker room bench",
+        date: "2023-10-16",
+        status: "found",
+        contact: "Athletic Dept. (athletics@campus.edu)",
+        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80"
+      }
+    ];
+
+    // Initialize the page with items
+    document.addEventListener('DOMContentLoaded', function() {
+      renderItems('all');
+      
+      // Add event listener for search
+      document.getElementById('searchInput').addEventListener('input', function(e) {
+        filterBySearch(e.target.value);
+      });
+      
+      // Add event listener for form submission
+      document.getElementById('reportForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Your report has been submitted successfully!');
+        closeReportForm();
+      });
+    });
+
+    // Render items based on filter
+    function renderItems(filter) {
+      const grid = document.getElementById('itemsGrid');
+      grid.innerHTML = '';
+      
+      const filteredItems = filter === 'all' 
+        ? items 
+        : items.filter(item => item.status === filter);
+      
+      if (filteredItems.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-10">
+            <i class="fas fa-search text-4xl text-gray-500 mb-3"></i>
+            <p class="text-gray-400">No items found</p>
+          </div>
+        `;
+        return;
+      }
+      
+      filteredItems.forEach(item => {
+        const statusClass = item.status === 'found' ? 'status-found' : 'status-claimed';
+        const statusText = item.status === 'found' ? 'Found' : 'Claimed';
+        
+        grid.innerHTML += `
+          <div class="bg-[#2c2f34] rounded-lg overflow-hidden shadow hover:shadow-lg transition cursor-pointer section-card"
+               onclick="showItemDetails(${item.id})">
+            <img src="${item.image}" alt="${item.name}" class="w-full h-40 object-cover">
+            <div class="p-4">
+              <div class="flex justify-between items-start mb-2">
+                <h2 class="text-lg font-semibold">${item.name}</h2>
+                <span class="${statusClass} status-badge">${statusText}</span>
+              </div>
+              <p class="text-sm text-gray-400 mb-1">${item.type}</p>
+              <p class="text-sm text-gray-400">Found on ${formatDate(item.date)}</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+    
+    // Filter items by status
+    function filterItems(status) {
+      renderItems(status);
+    }
+    
+    // Filter items by search term
+    function filterBySearch(term) {
+      const grid = document.getElementById('itemsGrid');
+      grid.innerHTML = '';
+      
+      const filteredItems = items.filter(item => 
+        item.name.toLowerCase().includes(term.toLowerCase()) ||
+        item.description.toLowerCase().includes(term.toLowerCase()) ||
+        item.type.toLowerCase().includes(term.toLowerCase())
+      );
+      
+      if (filteredItems.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-10">
+            <i class="fas fa-search text-4xl text-gray-500 mb-3"></i>
+            <p class="text-gray-400">No items found matching "${term}"</p>
+          </div>
+        `;
+        return;
+      }
+      
+      filteredItems.forEach(item => {
+        const statusClass = item.status === 'found' ? 'status-found' : 'status-claimed';
+        const statusText = item.status === 'found' ? 'Found' : 'Claimed';
+        
+        grid.innerHTML += `
+          <div class="bg-[#2c2f34] rounded-lg overflow-hidden shadow hover:shadow-lg transition cursor-pointer section-card"
+               onclick="showItemDetails(${item.id})">
+            <img src="${item.image}" alt="${item.name}" class="w-full h-40 object-cover">
+            <div class="p-4">
+              <div class="flex justify-between items-start mb-2">
+                <h2 class="text-lg font-semibold">${item.name}</h2>
+                <span class="${statusClass} status-badge">${statusText}</span>
+              </div>
+              <p class="text-sm text-gray-400 mb-1">${item.type}</p>
+              <p class="text-sm text-gray-400">Found on ${formatDate(item.date)}</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+    
+    // Show item details in modal
+    function showItemDetails(id) {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      
+      const statusClass = item.status === 'found' ? 'status-found' : 'status-claimed';
+      const statusText = item.status === 'found' ? 'Found' : 'Claimed';
+      
+      document.getElementById("itemContent").innerHTML = `
+        <div class="mb-4">
+          <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover rounded-lg">
+        </div>
+        <div class="flex justify-between items-start mb-2">
+          <h2 class="text-2xl font-bold">${item.name}</h2>
+          <span class="${statusClass} status-badge">${statusText}</span>
+        </div>
+        <p class="text-sm text-gray-400 mb-4">${item.type} • Found on ${formatDate(item.date)}</p>
+        <div class="mb-4">
+          <h3 class="font-semibold mb-1">Description</h3>
+          <p>${item.description}</p>
+        </div>
+        <div class="mb-4">
+          <h3 class="font-semibold mb-1">Location</h3>
+          <p>${item.location}</p>
+        </div>
+        <div class="mb-4 p-3 bg-blue-900/20 rounded-lg">
+          <h3 class="font-semibold mb-1">Contact Information</h3>
+          <p>If this is your item, contact: <span class="text-blue-300">${item.contact}</span></p>
+        </div>
+      `;
+
+      const modal = document.getElementById("itemModal");
+      const box = document.getElementById("modalBox");
+      modal.classList.remove("hidden");
+
+      setTimeout(() => {
+        box.classList.remove("scale-95", "opacity-0");
+        box.classList.add("scale-100", "opacity-100");
+      }, 10);
+    }
+    
+    // Close item details modal
+    function closeItemDetails() {
+      const modal = document.getElementById("itemModal");
+      const box = document.getElementById("modalBox");
+
+      box.classList.remove("scale-100", "opacity-100");
+      box.classList.add("scale-95", "opacity-0");
+
+      setTimeout(() => {
+        modal.classList.add("hidden");
+      }, 200);
+    }
+    
+    // Show report form modal
+    function showReportForm() {
+      document.getElementById("reportModal").classList.remove("hidden");
+    }
+    
+    // Close report form modal
+    function closeReportForm() {
+      document.getElementById("reportModal").classList.add("hidden");
+    }
+    
+    // Format date for display
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+  </script>
+</body>
+</html>
