@@ -5,11 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export async function apireq(
-  method: string,
+export async function apireq<T = unknown>(
+  method: "GET" | "POST" | "PUT" | "DELETE",
   path: string,
-  body?: any
-) {
+  body?: Record<string, unknown>
+): Promise<T> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
   const url = `${baseUrl.replace(/\/$/, "")}/${path.replace(/^\//, "")}`
 
@@ -28,5 +28,5 @@ export async function apireq(
     throw new Error(`API error: ${res.status} ${res.statusText}`)
   }
 
-  return res.json()
+  return res.json() as Promise<T>
 }
