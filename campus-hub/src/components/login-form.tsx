@@ -1,5 +1,5 @@
 "use client"
-import { cn } from "@/lib/utils"
+import { apireq, cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -29,12 +29,14 @@ export function LoginForm({
           <form onSubmit={(e) => {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
-            console.log({
-              school_id: formData.get("school_id"),
-              username: formData.get("username"),
-              password: formData.get("password"),
+            
+            apireq("POST", "/login", {
+              school_id: formData.get("school_id") as string,
+              username: formData.get("username") as string,
+              password: formData.get("password") as string,
+            }).then(() => {
+              router.push("/notices/main");
             });
-            router.push("/notices/main");
           }}>
             <div className="grid gap-6">
               <div className="grid gap-6">

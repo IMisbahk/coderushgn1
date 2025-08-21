@@ -3,13 +3,21 @@ import datetime
 from flask import Flask, request, jsonify
 from flask_migrate import Migrate
 from models import db, Profile, Message, Notice, LostFound, Counselling, Society, SocietyMember, Event
+from flask_cors import CORS
+import dotenv
+import os
+import bcrypt
+
+dotenv.load_dotenv()
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = "supersecretkey"
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://neondb_owner:password@ep-old-shape-adcprg1y-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+CORS(app, resources={r"/*": {"origins" : {"*", "http://localhost:3000"}, "allow_headers" : "*"}})
 
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -23,9 +31,9 @@ def login():
     data = request.json
     user = Profile.query.filter_by(username=data["username"], school_id=data["school_id"]).first()
     if user:
-        if user.password == data["password"]:
+        if bcrypt.checkpw(data["password"].encode("utf-8"), user.password):
             token = jwt.encode(
-                {"user_id": user.id, "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
+                {"user_id": user.id, "exp": datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=1)},
                 app.config["SECRET_KEY"],
                 algorithm="HS256"
             )
@@ -34,7 +42,6 @@ def login():
 
 @app.route('/logout', methods=["POST"])
 def logout():
-    # In JWT, logout is usually handled client-side by discarding the token.
     return {"message": "Logged out successfully. Discard the token on client side."}
 
 @app.route('/signup', methods=["POST"])
@@ -43,7 +50,7 @@ def signup():
     user = Profile.query.filter_by(username=data["username"], school_id=data["school_id"]).first()
     if user:
         return {"message": "User already exists"}
-    profile = Profile(name=data["name"], email=data["email"], role=data.get("role", "student"), username=data["username"], school_id=data["school_id"], password=data["password"])
+    profile = Profile(name=data["name"], email=data["email"], username=data["username"], school_id=data["school_id"], password=bcrypt.hashpw(data["password"].encode("utf-8"), bcrypt.gensalt()))
     db.session.add(profile)
     db.session.commit()
     return {"message": "User created successfully"}
@@ -56,7 +63,7 @@ def profiles():
 
     if request.method == "POST":
         data = request.json
-        profile = Profile(name=data["name"], email=data["email"], role=data.get("role", "student"), username=data["username"], school_id=data["school_id"], password=data["password"])
+        profile = Profile(name=data["name"], email=data["email"], role=data.get("role", "student"), username=data["username"], school_id=data["school_id"], password=bcrypt.hashpw(data["password"].encode("utf-8"), bcrypt.gensalt()))
         db.session.add(profile)
         db.session.commit()
         return jsonify({"id": profile.id, "name": profile.name}), 201
@@ -140,4 +147,6 @@ def events():
         return jsonify({"id": ev.id, "title": ev.title}), 201
 
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)

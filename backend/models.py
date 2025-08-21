@@ -12,6 +12,9 @@ class Profile(db.Model):
     id = db.Column(db.String, primary_key=True, default=generate_uuid)
     email = db.Column(db.String, unique=True, nullable=False)
     name = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, unique=True, nullable=False)
+    password = db.Column(db.String, nullable=False)
+    school_id = db.Column(db.String, nullable=False)
     role = db.Column(db.String, default="student")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 

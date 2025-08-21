@@ -1,5 +1,5 @@
 "use client"
-import { cn } from "@/lib/utils"
+import { apireq, cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import {
@@ -12,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import router from "next/router"
-
 export function SignupForm({
   className,
   ...props
@@ -30,13 +29,14 @@ export function SignupForm({
           <form onSubmit={(e) => {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
-            console.log({
-              name: formData.get("name"),
-              username: formData.get("username"),
-              password: formData.get("password"),
-              school_id: formData.get("school_id"),
-            });
-           router.push("/notices/main");
+            
+           apireq("POST", "/signup", {
+            name: formData.get("name") as string,
+            email: formData.get("email") as string,
+            username: formData.get("username") as string,
+            password: formData.get("password") as string,
+            school_id: formData.get("school_id") as string,
+          });
           }}>
             <div className="grid gap-6">
               <div className="grid gap-6">
@@ -47,6 +47,16 @@ export function SignupForm({
                     name="name"
                     type="text"
                     placeholder="Enter your name"
+                    required
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
                     required
                   />
                 </div>
