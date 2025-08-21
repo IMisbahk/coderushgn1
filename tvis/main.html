@@ -48,11 +48,16 @@
       background-color: #6366f1;
     }
     
-    /* Sidebar hidden by default */
+    /* Sidebar hidden by default - EXACTLY LIKE FIRST CODE */
     .sidebar {
       transform: translateX(-100%);
       transition: transform 0.3s ease;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 40;
     }
+    
     .sidebar-container:hover .sidebar {
       transform: translateX(0);
     }
@@ -164,8 +169,8 @@
   </style>
 </head>
 <body class="h-screen flex overflow-hidden">
-  <!-- Sidebar + Trigger -->
-  <div class="sidebar-container absolute top-0 left-0 h-full z-50">
+  <!-- Sidebar + Trigger - EXACTLY LIKE FIRST CODE -->
+  <div class="sidebar-container fixed top-0 left-0 h-full z-50">
     <!-- Hamburger Button -->
     <div class="p-3 cursor-pointer bg-[#1a1d21] hover:bg-gray-700">
       <i class="fas fa-bars text-xl text-white"></i>
@@ -183,46 +188,66 @@
           <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">NAVIGATION</h2>
           
           <div class="space-y-1">
-            <div class="nav-item active px-2 py-2 text-white cursor-pointer rounded flex items-center">
+            <a href="main.html" class="nav-item active px-2 py-2 text-white cursor-pointer rounded flex items-center">
               <i class="fas fa-home mr-2 text-sm"></i>
               <span>Dashboard</span>
-            </div>
+            </a>
             
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+            <a href="events.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
               <i class="fas fa-calendar-alt mr-2 text-sm"></i>
               <span>Events & Notice Board</span>
-            </div>
+            </a>
             
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+            <a href="lostandfound.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
               <i class="fas fa-search mr-2 text-sm"></i>
               <span>Lost & Found</span>
-            </div>
+            </a>
             
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+            <a href="menu.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-utensils mr-2 text-sm"></i>
+              <span>Today's Menu</span>
+            </a>
+            
+            <a href="society.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
               <i class="fas fa-users mr-2 text-sm"></i>
-              <span>Community</span>
-            </div>
+              <span>Class Groups</span>
+            </a>
             
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+            <a href="app.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-calendar-check mr-2 text-sm"></i>
+              <span>Appointments</span>
+            </a>
+            
+            <a href="qna.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-question-circle mr-2 text-sm"></i>
+              <span>Student Support</span>
+            </a>
+            
+            <a href="timer.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-graduation-cap mr-2 text-sm"></i>
+              <span>Study Hub</span>
+            </a>
+            
+            <a href="settings.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
               <i class="fas fa-cog mr-2 text-sm"></i>
               <span>Settings</span>
-            </div>
+            </a>
           </div>
         </div>
 
-        <!-- Quick Access -->
+        <!-- Quick Access - Updated to match first code style -->
         <div class="mb-6">
           <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">QUICK ACCESS</h2>
           
           <div class="space-y-2">
             <div class="section-card p-3 cursor-pointer">
               <div class="flex items-center">
-                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
-                  <i class="fas fa-bullhorn text-white text-sm"></i>
+                <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center">
+                  <i class="fas fa-star text-white text-sm"></i>
                 </div>
                 <div class="ml-3">
-                  <div class="text-sm font-medium text-white">Upcoming Events</div>
-                  <div class="text-xs text-gray-400">3 new events</div>
+                  <div class="text-sm font-medium text-white">Today's Special</div>
+                  <div class="text-xs text-gray-400">Pasta Alfredo</div>
                 </div>
               </div>
             </div>
@@ -230,35 +255,35 @@
             <div class="section-card p-3 cursor-pointer">
               <div class="flex items-center">
                 <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
-                  <i class="fas fa-book text-white text-sm"></i>
+                  <i class="fas fa-heart text-white text-sm"></i>
                 </div>
                 <div class="ml-3">
-                  <div class="text-sm font-medium text-white">Resources</div>
-                  <div class="text-xs text-gray-400">Study materials</div>
+                  <div class="text-sm font-medium text-white">Healthy Options</div>
+                  <div class="text-xs text-gray-400">5 options available</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Recent Activity -->
+        <!-- Canteen Hours - Like first code -->
         <div>
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">RECENT ACTIVITY</h2>
+          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">CANTEEN HOURS</h2>
           
           <div class="space-y-2">
-            <div class="text-xs text-gray-400 flex items-center">
-              <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-              <span>New message in #general</span>
+            <div class="text-xs text-gray-400 flex justify-between">
+              <span>Monday - Friday</span>
+              <span>8:00 AM - 4:00 PM</span>
             </div>
             
-            <div class="text-xs text-gray-400 flex items-center">
-              <div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-              <span>Event added: Tech Talk</span>
+            <div class="text-xs text-gray-400 flex justify-between">
+              <span>Saturday</span>
+              <span>9:00 AM - 2:00 PM</span>
             </div>
             
-            <div class="text-xs text-gray-400 flex items-center">
-              <div class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div>
-              <span>New item in Lost & Found</span>
+            <div class="text-xs text-gray-400 flex justify-between">
+              <span>Sunday</span>
+              <span>Closed</span>
             </div>
           </div>
         </div>
@@ -284,12 +309,7 @@
       <span class="font-semibold text-white">Dashboard</span>
 
       <div class="ml-auto flex items-center space-x-4 text-gray-400">
-        <i class="fas fa-bell hover:text-white cursor-pointer"></i>
-        <i class="fas fa-pin hover:text-white cursor-pointer"></i>
-        <i class="fas fa-calendar-alt hover:text-white cursor-pointer" id="events-button"></i>
-        <div class="relative">
-          <input type="text" placeholder="Search" class="bg-[#1a1d21] rounded text-sm px-3 py-1.5 w-40 focus:outline-none focus:ring-1 focus:ring-blue-500">
-        </div>
+        <i class="fas fa-calendar-alt hover:text-white cursor-pointer" id="calendar-button"></i>
         <i class="fas fa-inbox hover:text-white cursor-pointer"></i>
         <i class="fas fa-question-circle hover:text-white cursor-pointer"></i>
       </div>
@@ -326,7 +346,7 @@
                     <div class="card-title text-white">Settings</div>
                     <div class="card-desc">Manage your account preferences and app configuration</div>
                   </div>
-                  <button class="card-btn">Configure</button>
+                  <button class="card-btn" onclick="window.location.href='settings.html'">Configure</button>
                 </div>
               </div>
             </div>
@@ -346,7 +366,7 @@
                     <div class="card-title text-white">Assignments</div>
                     <div class="card-desc">View and manage your current tasks and deadlines</div>
                   </div>
-                  <button class="card-btn">View Tasks</button>
+                  <button class="card-btn" onclick="window.location.href='timer.html'">View Tasks</button>
                 </div>
               </div>
             </div>
@@ -366,7 +386,7 @@
                     <div class="card-title text-white">Events</div>
                     <div class="card-desc">Browse upcoming events and add them to your calendar</div>
                   </div>
-                  <button class="card-btn">Explore Events</button>
+                  <button class="card-btn" onclick="window.location.href='events.html'">Explore Events</button>
                 </div>
               </div>
             </div>
@@ -386,7 +406,7 @@
                     <div class="card-title text-white">Notices</div>
                     <div class="card-desc">Stay updated with important community announcements</div>
                   </div>
-                  <button class="card-btn">Read Notices</button>
+                  <button class="card-btn" onclick="window.location.href='events.html'">Read Notices</button>
                 </div>
               </div>
             </div>
@@ -406,7 +426,7 @@
                     <div class="card-title text-white">Menu</div>
                     <div class="card-desc">Check out today's meal options and dining hall hours</div>
                   </div>
-                  <button class="card-btn">View Menu</button>
+                  <button class="card-btn" onclick="window.location.href='menu.html'">View Menu</button>
                 </div>
               </div>
             </div>
@@ -426,7 +446,7 @@
                     <div class="card-title text-white">Q&A</div>
                     <div class="card-desc">Ask questions and get answers from the community</div>
                   </div>
-                  <button class="card-btn">Ask Question</button>
+                  <button class="card-btn" onclick="window.location.href='qna.html'">Ask Question</button>
                 </div>
               </div>
             </div>
@@ -446,7 +466,7 @@
                     <div class="card-title text-white">Lost & Found</div>
                     <div class="card-desc">Report lost items or check if your item has been found</div>
                   </div>
-                  <button class="card-btn">Browse Items</button>
+                  <button class="card-btn" onclick="window.location.href='lostandfound.html'">Browse Items</button>
                 </div>
               </div>
             </div>
@@ -526,43 +546,13 @@
     </div>
   </div>
 
-  <!-- Popup Overlay -->
-  <div id="popup-overlay" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden">
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 bg-[#1a1d21] rounded-lg p-6 border border-gray-700">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold text-white">Event Details</h3>
-        <button id="close-popup" class="text-gray-400 hover:text-white">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" 
-           alt="Event Image" 
-           class="w-full h-48 object-cover rounded mb-4">
-      <p class="text-gray-300 text-sm">Join us for our upcoming event!</p>
-    </div>
-  </div>
-
   <script>
-    const eventsBtn = document.getElementById('events-button');
-    const popupOverlay = document.getElementById('popup-overlay');
-    const closePopup = document.getElementById('close-popup');
-
-    eventsBtn.addEventListener('click', () => {
-      popupOverlay.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    });
-
-    closePopup.addEventListener('click', () => {
-      popupOverlay.classList.add('hidden');
-      document.body.style.overflow = 'auto';
-    });
-
     // Card click handlers
     document.querySelectorAll('.card-btn').forEach(button => {
       button.addEventListener('click', function(e) {
         e.stopPropagation();
         const cardTitle = this.closest('.card').querySelector('.card-title').textContent;
-        alert(`Navigating to ${cardTitle} section`);
+        console.log(`Navigating to ${cardTitle} section`);
       });
     });
   </script>

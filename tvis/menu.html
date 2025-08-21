@@ -1,471 +1,491 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Today's Menu - Campus Companion</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    
-    body { 
-      background-color: #1a1d21; 
-      color: #e6e9ec; 
-      font-family: 'Inter', sans-serif; 
-    }
-    
-    .channel-item {
-      transition: all 0.2s ease;
-      border-left: 3px solid transparent;
-    }
-    
-    .channel-item:hover {
-      background-color: #2c2f34;
-      border-left: 3px solid #6366f1;
-    }
-    
-    .section-card {
-      background: linear-gradient(145deg, #23262b, #1c1f24);
-      border-radius: 10px;
-      transition: all 0.3s ease;
-    }
-    
-    .section-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    
-    .nav-item {
-      transition: all 0.2s ease;
-    }
-    
-    .nav-item:hover {
-      background-color: #2c2f34;
-    }
-    
-    .nav-item.active {
-      background-color: #6366f1;
-    }
-    
-    /* Sidebar hidden by default */
-    .sidebar {
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-    }
-    .sidebar-container:hover .sidebar {
-      transform: translateX(0);
-    }
-    
-    .scrollbar-custom::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    .scrollbar-custom::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    
-    .scrollbar-custom::-webkit-scrollbar-thumb {
-      background: #4b5563;
-      border-radius: 3px;
-    }
-    
-    .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-      background: #6366f1;
-    }
-    
-    .menu-category {
-      border-left: 4px solid #6366f1;
-    }
-    
-    .menu-item {
-      transition: all 0.2s ease;
-    }
-    
-    .menu-item:hover {
-      background-color: #2c2f34;
-    }
-    
-    .veg-indicator {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: #22c55e;
-    }
-    
-    .nonveg-indicator {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: #ef4444;
-    }
-  </style>
-</head>
-<body class="h-screen flex overflow-hidden">
-  <!-- Sidebar + Trigger -->
-  <div class="sidebar-container absolute top-0 left-0 h-full z-50">
-    <!-- Hamburger Button -->
-    <div class="p-3 cursor-pointer bg-[#1a1d21] hover:bg-gray-700">
-      <i class="fas fa-bars text-xl text-white"></i>
-    </div>
-    
-    <!-- Sidebar -->
-    <div class="sidebar w-64 bg-[#1a1d21] border-r border-gray-800 h-full flex flex-col">
-      <div class="p-4 border-b border-gray-800">
-        <h1 class="text-xl font-bold text-white">flashDraft</h1>
-      </div>
-
-      <div class="flex-1 overflow-y-auto p-4 scrollbar-custom">
-        <!-- Navigation Items -->
-        <div class="mb-6">
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">NAVIGATION</h2>
-          
-          <div class="space-y-1">
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
-              <i class="fas fa-home mr-2 text-sm"></i>
-              <span>Dashboard</span>
-            </div>
-            
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
-              <i class="fas fa-calendar-alt mr-2 text-sm"></i>
-              <span>Events & Notice Board</span>
-            </div>
-            
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
-              <i class="fas fa-search mr-2 text-sm"></i>
-              <span>Lost & Found</span>
-            </div>
-            
-            <div class="nav-item active px-2 py-2 text-white cursor-pointer rounded flex items-center">
-              <i class="fas fa-utensils mr-2 text-sm"></i>
-              <span>Today's Menu</span>
-            </div>
-            
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
-              <i class="fas fa-users mr-2 text-sm"></i>
-              <span>Community</span>
-            </div>
-            
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
-              <i class="fas fa-cog mr-2 text-sm"></i>
-              <span>Settings</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Access -->
-        <div class="mb-6">
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">QUICK ACCESS</h2>
-          
-          <div class="space-y-2">
-            <div class="section-card p-3 cursor-pointer">
-              <div class="flex items-center">
-                <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center">
-                  <i class="fas fa-star text-white text-sm"></i>
-                </div>
-                <div class="ml-3">
-                  <div class="text-sm font-medium text-white">Today's Special</div>
-                  <div class="text-xs text-gray-400">Pasta Alfredo</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="section-card p-3 cursor-pointer">
-              <div class="flex items-center">
-                <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
-                  <i class="fas fa-heart text-white text-sm"></i>
-                </div>
-                <div class="ml-3">
-                  <div class="text-sm font-medium text-white">Healthy Options</div>
-                  <div class="text-xs text-gray-400">5 options available</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Canteen Info -->
-        <div>
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">CANTEEN HOURS</h2>
-          
-          <div class="space-y-2">
-            <div class="text-xs text-gray-400 flex justify-between">
-              <span>Monday - Friday</span>
-              <span>8:00 AM - 4:00 PM</span>
-            </div>
-            
-            <div class="text-xs text-gray-400 flex justify-between">
-              <span>Saturday</span>
-              <span>9:00 AM - 2:00 PM</span>
-            </div>
-            
-            <div class="text-xs text-gray-400 flex justify-between">
-              <span>Sunday</span>
-              <span>Closed</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="p-4 border-t border-gray-800 flex items-center">
-        <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
-          <i class="fas fa-user text-white text-sm"></i>
-        </div>
-        <div class="ml-3">
-          <div class="text-sm font-medium text-white">Alex Johnson</div>
-          <div class="text-xs text-gray-400">Online</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <div class="flex-1 flex flex-col bg-[#222529] ml-12">
-    <!-- Header -->
-    <div class="h-14 px-6 flex items-center border-b border-gray-800">
-      <i class="fas fa-utensils text-gray-500 mr-2"></i>
-      <span class="font-semibold text-white">Today's Menu</span>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Today's Menu - Campus Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
       
-      <div class="ml-4 text-sm text-gray-400">
-        <i class="far fa-calendar-alt mr-1"></i>
-        <span id="currentDate"></span>
+      body { 
+        background-color: #1a1d21; 
+        color: #e6e9ec; 
+        font-family: 'Inter', sans-serif; 
+      }
+      
+      .channel-item {
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+      }
+      
+      .channel-item:hover {
+        background-color: #2c2f34;
+        border-left: 3px solid #6366f1;
+      }
+      
+      .section-card {
+        background: linear-gradient(145deg, #23262b, #1c1f24);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+      
+      .section-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      
+      .nav-item {
+        transition: all 0.2s ease;
+      }
+      
+      .nav-item:hover {
+        background-color: #2c2f34;
+      }
+      
+      .nav-item.active {
+        background-color: #6366f1;
+      }
+      
+      /* Sidebar hidden by default */
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 40;
+      }
+      
+      .sidebar-container:hover .sidebar {
+        transform: translateX(0);
+      }
+      
+      .scrollbar-custom::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      .scrollbar-custom::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      .scrollbar-custom::-webkit-scrollbar-thumb {
+        background: #4b5563;
+        border-radius: 3px;
+      }
+      
+      .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+        background: #6366f1;
+      }
+      
+      .menu-category {
+        border-left: 4px solid #6366f1;
+      }
+      
+      .menu-item {
+        transition: all 0.2s ease;
+      }
+      
+      .menu-item:hover {
+        background-color: #2c2f34;
+      }
+      
+      .veg-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #22c55e;
+      }
+      
+      .nonveg-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #ef4444;
+      }
+    </style>
+  </head>
+  <body class="h-screen flex overflow-hidden">
+    <!-- Sidebar + Trigger -->
+    <div class="sidebar-container fixed top-0 left-0 h-full z-50">
+      <!-- Hamburger Button -->
+      <div class="p-3 cursor-pointer bg-[#1a1d21] hover:bg-gray-700">
+        <i class="fas fa-bars text-xl text-white"></i>
       </div>
-
-      <div class="ml-auto flex items-center space-x-4 text-gray-400">
-        <div class="relative">
-          <input type="text" placeholder="Search menu..." class="bg-[#1a1d21] rounded text-sm px-3 py-1.5 w-40 focus:outline-none focus:ring-1 focus:ring-blue-500">
-        </div>
-        <i class="fas fa-filter hover:text-white cursor-pointer" title="Filter options"></i>
-        <i class="fas fa-info-circle hover:text-white cursor-pointer" title="Dietary info"></i>
-      </div>
-    </div>
-
-    <!-- Content Area -->
-    <div class="flex-1 overflow-y-auto p-6 scrollbar-custom">
-      <div class="max-w-4xl mx-auto">
-        <!-- Welcome Section -->
-        <div class="mb-8 text-center">
-          <h1 class="text-3xl font-bold text-white mb-2">Campus Canteen Menu</h1>
-          <p class="text-gray-400">Today's delicious offerings</p>
+      
+      <!-- Sidebar -->
+      <div class="sidebar w-64 bg-[#1a1d21] border-r border-gray-800 h-full flex flex-col">
+        <div class="p-4 border-b border-gray-800">
+          <h1 class="text-xl font-bold text-white">flashDraft</h1>
         </div>
 
-        <!-- Menu Sections -->
-        <div class="space-y-8">
-          <!-- Breakfast Section -->
-          <div class="menu-category pl-4">
-            <h2 class="text-xl font-semibold text-white mb-4">Breakfast <span class="text-sm text-gray-400">(7:00 AM - 10:00 AM)</span></h2>
+        <div class="flex-1 overflow-y-auto p-4 scrollbar-custom">
+          <!-- Navigation Items -->
+          <div class="mb-6">
+            <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">NAVIGATION</h2>
             
-            <div class="space-y-3">
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Masala Dosa</h3>
-                    <p class="text-sm text-gray-400">Crispy crepe with spiced potato filling</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹65</div>
+            <div class="space-y-1">
+              <a href="main.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+                <i class="fas fa-home mr-2 text-sm"></i>
+                <span>Dashboard</span>
+              </a>
+              
+              <a href="events.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+                <i class="fas fa-calendar-alt mr-2 text-sm"></i>
+                <span>Events & Notice Board</span>
+              </a>
+              
+              <a href="lostandfound.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+                <i class="fas fa-search mr-2 text-sm"></i>
+                <span>Lost & Found</span>
+              </a>
+              
+              <div class="nav-item active px-2 py-2 text-white cursor-pointer rounded flex items-center">
+                <i class="fas fa-utensils mr-2 text-sm"></i>
+                <span>Today's Menu</span>
               </div>
               
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+              <a href="society.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+                <i class="fas fa-users mr-2 text-sm"></i>
+                <span>Class Groups</span>
+              </a>
+              
+              <a href="app.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+                <i class="fas fa-calendar-check mr-2 text-sm"></i>
+                <span>Appointments</span>
+              </a>
+              
+              <a href="qna.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+                <i class="fas fa-question-circle mr-2 text-sm"></i>
+                <span>Student Support</span>
+              </a>
+              
+              <a href="timer.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+                <i class="fas fa-graduation-cap mr-2 text-sm"></i>
+                <span>Study Hub</span>
+              </a>
+              
+              <a href="settings.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+                <i class="fas fa-cog mr-2 text-sm"></i>
+                <span>Settings</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Quick Access -->
+          <div class="mb-6">
+            <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">QUICK ACCESS</h2>
+            
+            <div class="space-y-2">
+              <div class="section-card p-3 cursor-pointer">
                 <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Poha</h3>
-                    <p class="text-sm text-gray-400">Flattened rice with onions and spices</p>
+                  <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center">
+                    <i class="fas fa-star text-white text-sm"></i>
+                  </div>
+                  <div class="ml-3">
+                    <div class="text-sm font-medium text-white">Today's Special</div>
+                    <div class="text-xs text-gray-400">Pasta Alfredo</div>
                   </div>
                 </div>
-                <div class="font-semibold">₹40</div>
               </div>
               
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+              <div class="section-card p-3 cursor-pointer">
                 <div class="flex items-center">
-                  <div class="nonveg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Egg Sandwich</h3>
-                    <p class="text-sm text-gray-400">Boiled eggs with mayo on whole wheat</p>
+                  <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
+                    <i class="fas fa-heart text-white text-sm"></i>
+                  </div>
+                  <div class="ml-3">
+                    <div class="text-sm font-medium text-white">Healthy Options</div>
+                    <div class="text-xs text-gray-400">5 options available</div>
                   </div>
                 </div>
-                <div class="font-semibold">₹55</div>
               </div>
             </div>
           </div>
 
-          <!-- Lunch Section -->
-          <div class="menu-category pl-4">
-            <h2 class="text-xl font-semibold text-white mb-4">Lunch <span class="text-sm text-gray-400">(11:30 AM - 3:00 PM)</span></h2>
+          <!-- Canteen Info -->
+          <div>
+            <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">CANTEEN HOURS</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Meal Plate</h3>
-                    <p class="text-sm text-gray-400">Rice, 2 chapatis, dal, 2 veggies</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹80</div>
+            <div class="space-y-2">
+              <div class="text-xs text-gray-400 flex justify-between">
+                <span>Monday - Friday</span>
+                <span>8:00 AM - 4:00 PM</span>
               </div>
               
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="nonveg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Chicken Biryani</h3>
-                    <p class="text-sm text-gray-400">Fragrant rice with chicken pieces</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹120</div>
+              <div class="text-xs text-gray-400 flex justify-between">
+                <span>Saturday</span>
+                <span>9:00 AM - 2:00 PM</span>
               </div>
               
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Paneer Butter Masala</h3>
-                    <p class="text-sm text-gray-400">With naan or rice</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹110</div>
-              </div>
-              
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="nonveg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Fish Curry</h3>
-                    <p class="text-sm text-gray-400">South Indian style with rice</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹130</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Snacks Section -->
-          <div class="menu-category pl-4">
-            <h2 class="text-xl font-semibold text-white mb-4">Snacks <span class="text-sm text-gray-400">(3:00 PM - 5:30 PM)</span></h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Samosa (2 pcs)</h3>
-                    <p class="text-sm text-gray-400">With chutney</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹35</div>
-              </div>
-              
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Vada Pav</h3>
-                    <p class="text-sm text-gray-400">Mumbai street style</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹25</div>
-              </div>
-              
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">French Fries</h3>
-                    <p class="text-sm text-gray-400">With seasoning</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹50</div>
-              </div>
-              
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="nonveg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Chicken Wings (6 pcs)</h3>
-                    <p class="text-sm text-gray-400">Hot and spicy</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹90</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Beverages Section -->
-          <div class="menu-category pl-4">
-            <h2 class="text-xl font-semibold text-white mb-4">Beverages <span class="text-sm text-gray-400">(All day)</span></h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Coffee</h3>
-                    <p class="text-sm text-gray-400">Hot or iced</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹40</div>
-              </div>
-              
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Fresh Lime Soda</h3>
-                    <p class="text-sm text-gray-400">Sweet or salt</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹35</div>
-              </div>
-              
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Milkshake</h3>
-                    <p class="text-sm text-gray-400">Chocolate, vanilla, or strawberry</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹60</div>
-              </div>
-              
-              <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
-                <div class="flex items-center">
-                  <div class="veg-indicator mr-3"></div>
-                  <div>
-                    <h3 class="font-medium">Fresh Juice</h3>
-                    <p class="text-sm text-gray-400">Orange, watermelon, or pineapple</p>
-                  </div>
-                </div>
-                <div class="font-semibold">₹50</div>
+              <div class="text-xs text-gray-400 flex justify-between">
+                <span>Sunday</span>
+                <span>Closed</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Dietary Info -->
-        <div class="mt-10 p-4 bg-blue-900/20 rounded-lg">
-          <h3 class="font-semibold text-white mb-2">Dietary Information</h3>
-          <div class="flex items-center text-sm text-gray-400 mb-1">
-            <div class="veg-indicator mr-2"></div>
-            <span>Vegetarian</span>
+        <div class="p-4 border-t border-gray-800 flex items-center">
+          <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+            <i class="fas fa-user text-white text-sm"></i>
           </div>
-          <div class="flex items-center text-sm text-gray-400">
-            <div class="nonveg-indicator mr-2"></div>
-            <span>Non-vegetarian</span>
+          <div class="ml-3">
+            <div class="text-sm font-medium text-white">Alex Johnson</div>
+            <div class="text-xs text-gray-400">Online</div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    // Set current date
-    const now = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
-  </script>
-</body>
-</html>
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col bg-[#222529] ml-12">
+      <!-- Header -->
+      <div class="h-14 px-6 flex items-center border-b border-gray-800">
+        <i class="fas fa-utensils text-gray-500 mr-2"></i>
+        <span class="font-semibold text-white">Today's Menu</span>
+        
+        <div class="ml-4 text-sm text-gray-400">
+          <i class="far fa-calendar-alt mr-1"></i>
+          <span id="currentDate"></span>
+        </div>
+
+        <div class="ml-auto flex items-center space-x-4 text-gray-400">
+          <div class="relative">
+            <input type="text" placeholder="Search menu..." class="bg-[#1a1d21] rounded text-sm px-3 py-1.5 w-40 focus:outline-none focus:ring-1 focus:ring-blue-500">
+          </div>
+          <i class="fas fa-filter hover:text-white cursor-pointer" title="Filter options"></i>
+          <i class="fas fa-info-circle hover:text-white cursor-pointer" title="Dietary info"></i>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="flex-1 overflow-y-auto p-6 scrollbar-custom">
+        <div class="max-w-4xl mx-auto">
+          <!-- Welcome Section -->
+          <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-white mb-2">Campus Canteen Menu</h1>
+            <p class="text-gray-400">Today's delicious offerings</p>
+          </div>
+
+          <!-- Menu Sections -->
+          <div class="space-y-8">
+            <!-- Breakfast Section -->
+            <div class="menu-category pl-4">
+              <h2 class="text-xl font-semibold text-white mb-4">Breakfast <span class="text-sm text-gray-400">(7:00 AM - 10:00 AM)</span></h2>
+              
+              <div class="space-y-3">
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Masala Dosa</h3>
+                      <p class="text-sm text-gray-400">Crispy crepe with spiced potato filling</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹65</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Poha</h3>
+                      <p class="text-sm text-gray-400">Flattened rice with onions and spices</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹40</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="nonveg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Egg Sandwich</h3>
+                      <p class="text-sm text-gray-400">Boiled eggs with mayo on whole wheat</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹55</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lunch Section -->
+            <div class="menu-category pl-4">
+              <h2 class="text-xl font-semibold text-white mb-4">Lunch <span class="text-sm text-gray-400">(11:30 AM - 3:00 PM)</span></h2>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Meal Plate</h3>
+                      <p class="text-sm text-gray-400">Rice, 2 chapatis, dal, 2 veggies</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹80</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="nonveg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Chicken Biryani</h3>
+                      <p class="text-sm text-gray-400">Fragrant rice with chicken pieces</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹120</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Paneer Butter Masala</h3>
+                      <p class="text-sm text-gray-400">With naan or rice</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹110</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="nonveg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Fish Curry</h3>
+                      <p class="text-sm text-gray-400">South Indian style with rice</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹130</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Snacks Section -->
+            <div class="menu-category pl-4">
+              <h2 class="text-xl font-semibold text-white mb-4">Snacks <span class="text-sm text-gray-400">(3:00 PM - 5:30 PM)</span></h2>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Samosa (2 pcs)</h3>
+                      <p class="text-sm text-gray-400">With chutney</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹35</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Vada Pav</h3>
+                      <p class="text-sm text-gray-400">Mumbai street style</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹25</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">French Fries</h3>
+                      <p class="text-sm text-gray-400">With seasoning</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹50</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="nonveg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Chicken Wings (6 pcs)</h3>
+                      <p class="text-sm text-gray-400">Hot and spicy</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹90</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Beverages Section -->
+            <div class="menu-category pl-4">
+              <h2 class="text-xl font-semibold text-white mb-4">Beverages <span class="text-sm text-gray-400">(All day)</span></h2>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Coffee</h3>
+                      <p class="text-sm text-gray-400">Hot or iced</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹40</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Fresh Lime Soda</h3>
+                      <p class="text-sm text-gray-400">Sweet or salt</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹35</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Milkshake</h3>
+                      <p class="text-sm text-gray-400">Chocolate, vanilla, or strawberry</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹60</div>
+                </div>
+                
+                <div class="menu-item p-4 rounded-lg flex justify-between items-center section-card">
+                  <div class="flex items-center">
+                    <div class="veg-indicator mr-3"></div>
+                    <div>
+                      <h3 class="font-medium">Fresh Juice</h3>
+                      <p class="text-sm text-gray-400">Orange, watermelon, or pineapple</p>
+                    </div>
+                  </div>
+                  <div class="font-semibold">₹50</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dietary Info -->
+          <div class="mt-10 p-4 bg-blue-900/20 rounded-lg">
+            <h3 class="font-semibold text-white mb-2">Dietary Information</h3>
+            <div class="flex items-center text-sm text-gray-400 mb-1">
+              <div class="veg-indicator mr-2"></div>
+              <span>Vegetarian</span>
+            </div>
+            <div class="flex items-center text-sm text-gray-400">
+              <div class="nonveg-indicator mr-2"></div>
+              <span>Non-vegetarian</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Set current date
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+    </script>
+  </body>
+  </html>

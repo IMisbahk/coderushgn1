@@ -52,13 +52,19 @@
     .sidebar {
       transform: translateX(-100%);
       transition: transform 0.3s ease;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 40;
     }
+    
     .sidebar-container:hover .sidebar {
       transform: translateX(0);
     }
     
     .scrollbar-custom::-webkit-scrollbar {
       width: 6px;
+      height: 6px;
     }
     
     .scrollbar-custom::-webkit-scrollbar-track {
@@ -82,7 +88,7 @@
 </head>
 <body class="h-screen flex overflow-hidden">
   <!-- Sidebar + Trigger -->
-  <div class="sidebar-container absolute top-0 left-0 h-full z-50">
+  <div class="sidebar-container fixed top-0 left-0 h-full z-50">
     <!-- Hamburger Button -->
     <div class="p-3 cursor-pointer bg-[#1a1d21] hover:bg-gray-700">
       <i class="fas fa-bars text-xl text-white"></i>
@@ -100,30 +106,50 @@
           <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">NAVIGATION</h2>
           
           <div class="space-y-1">
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+            <a href="main.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
               <i class="fas fa-home mr-2 text-sm"></i>
               <span>Dashboard</span>
-            </div>
+            </a>
             
             <div class="nav-item active px-2 py-2 text-white cursor-pointer rounded flex items-center">
               <i class="fas fa-calendar-alt mr-2 text-sm"></i>
               <span>Events & Notice Board</span>
             </div>
             
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+            <a href="lostandfound.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
               <i class="fas fa-search mr-2 text-sm"></i>
               <span>Lost & Found</span>
-            </div>
+            </a>
             
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+            <a href="menu.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-utensils mr-2 text-sm"></i>
+              <span>Today's Menu</span>
+            </a>
+            
+            <a href="society.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
               <i class="fas fa-users mr-2 text-sm"></i>
-              <span>Community</span>
-            </div>
+              <span>Class Groups</span>
+            </a>
             
-            <div class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+            <a href="app.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-calendar-check mr-2 text-sm"></i>
+              <span>Appointments</span>
+            </a>
+            
+            <a href="qna.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-question-circle mr-2 text-sm"></i>
+              <span>Student Support</span>
+            </a>
+            
+            <a href="timer.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
+              <i class="fas fa-graduation-cap mr-2 text-sm"></i>
+              <span>Study Hub</span>
+            </a>
+            
+            <a href="settings.html" class="nav-item px-2 py-2 text-gray-300 hover:text-white cursor-pointer rounded flex items-center">
               <i class="fas fa-cog mr-2 text-sm"></i>
               <span>Settings</span>
-            </div>
+            </a>
           </div>
         </div>
 
@@ -201,12 +227,7 @@
       <span class="font-semibold text-white">Events & Notice Board</span>
 
       <div class="ml-auto flex items-center space-x-4 text-gray-400">
-        <i class="fas fa-bell hover:text-white cursor-pointer"></i>
-        <i class="fas fa-pin hover:text-white cursor-pointer"></i>
-        <i class="fas fa-calendar-alt hover:text-white cursor-pointer" id="events-button"></i>
-        <div class="relative">
-          <input type="text" placeholder="Search" class="bg-[#1a1d21] rounded text-sm px-3 py-1.5 w-40 focus:outline-none focus:ring-1 focus:ring-blue-500">
-        </div>
+        <i class="fas fa-calendar-alt hover:text-white cursor-pointer" id="calendar-button"></i>
         <i class="fas fa-inbox hover:text-white cursor-pointer"></i>
         <i class="fas fa-question-circle hover:text-white cursor-pointer"></i>
       </div>
@@ -243,7 +264,7 @@
 
           <div class="bg-[#2c2f34] rounded-lg overflow-hidden shadow hover:shadow-lg transition cursor-pointer section-card"
                onclick="showEventDetails('debate')">
-            <img src="https://images.unsplash.com/photo-1584697964358-3e14ca57658b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Debate Banner" class="w-full h-40 object-cover">
+            <img src="https://images.unsplash.com/photo-1584697964358-3e14ca57658b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=c crop&w=600&q=80" alt="Debate Banner" class="w-full h-40 object-cover">
             <div class="p-4">
               <h2 class="text-xl font-semibold">Inter-School Debate</h2>
               <p class="text-sm text-gray-400">Hall 3 – Friday, 11 AM</p>
